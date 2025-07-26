@@ -8,3 +8,4 @@ openpyxl
 apscheduler
 requests
 python-dotenv
+gunicorn
