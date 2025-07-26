@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Transactions{% endblock %}
+{% block content %}
+<h3>Transactions</h3>
+
+<button class="btn btn-secondary mb-3" id="toggleForm">Add New Transaction</button>
+
+<div id="formContainer" style="display:none;">
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="row g-3">
+      <div class="col-md-4">
+        {{ form.amount.label }} {{ form.amount(class="form-control") }}
+      </div>
+      <div class="col-md-4">
+        {{ form.currency.label }} {{ form.currency(class="form-select") }}
+      </div>
+      <div class="col-md-4">
+        {{ form.date.label }} {{ form.date(class="form-control") }}
+      </div>
+      <div class="col-md-6">
+        {{ form.category.label }} {{ form.category(class="form-select") }}
+      </div>
+      <div class="col-md-6">
+        {{ form.account.label }} {{ form.account(class="form-select") }}
+      </div>
+      <div class="col-md-12">
+        {{ form.description.label }} {{ form.description(class="form-control") }}
+      </div>
+      <div class="col-md-6">
+        {{ form.recurring() }} {{ form.recurring.label }}
+      </div>
+      <div class="col-md-6">
+        {{ form.receipt.label }} {{ form.receipt(class="form-control") }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+  </form>
+</div>
+
+<table class="table table-striped mt-4">
+  <thead><tr><th>Date</th><th>Account</th><th>Category</th><th>Amount</th><th>Currency</th><th>Description</th><th>Receipt</th></tr></thead>
+  <tbody>
+  {% for txn in transactions %}
+    <tr>
+      <td>{{ txn.date }}</td>
+      <td>{{ txn.account.name }}</td>
+      <td>{{ txn.category.name }}</td>
+      <td>{{ txn.amount }}</td>
+      <td>{{ txn.currency }}</td>
+      <td>{{ txn.description or '' }}</td>
+      <td>
+        {% if txn.receipt_file %}
+          <a href="{{ url_for('static', filename='uploads/' ~ txn.receipt_file) }}" target="_blank">View</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<script>
+document.getElementById('toggleForm').onclick = () => {
+  const c = document.getElementById('formContainer');
+  c.style.display = c.style.display === 'none' ? 'block' : 'none';
+};
+</script>
+{% endblock %}

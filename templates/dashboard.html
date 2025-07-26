@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Dashboard</title></head>
+<body>
+    <h1>Transactions</h1>
+    <ul>
+    {% for txn in transactions %}
+        <li>{{ txn.date }} - {{ txn.amount }} {{ txn.currency }} - {{ txn.description }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

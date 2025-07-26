@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h3>Spending Reports</h3>
+<canvas id="spendChart" width="400" height="200"></canvas>
+<a href="{{ url_for('main.export') }}" class="btn btn-primary mt-3">Export to Excel</a>
+<script>
+const ctx = document.getElementById('spendChart').getContext('2d');
+const data =" report_data | tojson ";
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: data.labels,
+    datasets: [{
+      label: 'Total spent',
+      backgroundColor: 'rgba(75, 192, 192, 0.7)',
+      data: data.amounts
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: true } }
+  }
+});
+</script>
+{% endblock %}
